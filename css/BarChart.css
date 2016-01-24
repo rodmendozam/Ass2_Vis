@@ -1,0 +1,10 @@
+body{
+
+}
+div.bar {
+    display: inline-block;
+    width: 40px;
+    height: 75px;   /* We'll override height later */
+    background-color: teal;
+    margin-left: 8px;
+}
