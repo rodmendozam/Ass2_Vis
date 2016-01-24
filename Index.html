@@ -4,22 +4,53 @@
     <meta charset="UTF-8">
     <title></title>
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <!-- I recommend you host this file on your own, since this will change without warning -->
+    <script src="http://datamaps.github.io/scripts/datamaps.world.min.js?v=1"></script>
+
     <link rel="stylesheet" type="text/css" href="css/BarChart.css">
 </head>
 <body>
+    <div id="container1" style="position: relative; width: 80%; max-height: 450px;"></div>
+    <div id="colourmap" style="position: relative; width: 20%; max-height: 450px;"></div>
     <script type="text/javascript">
         //d3.select("body").append("p").text("New paragraph!");
         var myData;
-        d3.csv("data/test.csv", function(error,data) {//callback function after error or finishing data is loaded
+        d3.csv("data/internet.csv", function(error,data) {//callback function after error or finishing data is loaded
             if(error){//Data didn't load properly
                 console.log(error);
             }else{
-                console.log(data);
+                console.log(data[0]);
             }
             //Functions to call after the data has been loaded
             myData = data;
 
         });
+        var map = new Datamap({
+        scope: 'world',
+        element: document.getElementById('container1'),
+        projection: 'mercator',
+        height: 500,
+        fills: {
+          defaultFill: 'grey',
+          class1: 'rgba(254,237,222,0.9)',
+          class2: 'rgba(253,190,133,0.9)',
+          class3: 'rgba(253,141,60,0.9)',
+          class4: 'rgba(230,85,13,0.9)',
+          class5: 'rgba(166,54,3,0.9)'
+        },
+
+        data: {
+          USA: {fillKey: 'class1' },
+          BTN: {fillKey: 'class1' },
+          CAN: {fillKey: 'class2' },
+          BRA: {fillKey: 'class3' },
+          ARG: {fillKey: 'class4'},
+          GNB: {fillKey: 'class5' },
+          ZAF: {fillKey: 'class0' },
+          MAD: {fillKey: 'class4' }
+        }
+      })
 
         function arrayToText(){
         var dataset  = [ 5, 10, 15, 20, 25 ];
