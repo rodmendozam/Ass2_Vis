@@ -1,0 +1,91 @@
+/*GENERAL*/
+h3{
+    font-size: 135%;
+}
+
+/*BLOCK CONTAINERS*/
+#mainContainer{
+    width: 1600px;
+    margin: 0 auto;
+
+}
+#rankingContainer{
+    width: 320px;
+    float: left;
+    height: 900px;
+}
+#graphContainer{
+    width: 1280px;
+    margin-left: 330px;
+    height: 900px;
+}
+#mapContainer{
+    height: 570px;
+    margin-bottom:10px;
+}
+#indexContainer{
+    height: 320px;
+}
+.blackBorder{
+    border-width:1px;
+    border-style:solid;
+    border-color: #2b2d2f;
+}
+#rankingTitle{
+    text-align: center;
+    background-color: #31b0d5;
+    padding: 15px 0 15px 0;
+}
+
+/*RANKING LIST SECTION*/
+#rankingContainer ul{
+    list-style-type: none;
+    margin-top: 15px;
+    width: 100%;
+}
+li img{
+    width: 25px;
+    height: 25px;
+    float: right;
+}
+li{
+    padding-left: 20px;
+    padding-bottom: 5px;
+    overflow: auto;
+}
+li p{
+
+}
+li h3{
+
+}
+li img{
+
+}
+li:hover{
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
