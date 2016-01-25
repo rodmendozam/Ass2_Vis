@@ -7,12 +7,19 @@ h3{
 #mainContainer{
     width: 1600px;
     margin: 0 auto;
+    margin-top: 10px;
 
 }
 #rankingContainer{
     width: 320px;
     float: left;
-    height: 900px;
+    height: 930px;
+}
+#infoContainer{
+    margin: 10px;
+    padding-bottom: 20px;
+    text-align: right;
+
 }
 #graphContainer{
     width: 1280px;
@@ -20,8 +27,9 @@ h3{
     height: 900px;
 }
 #mapContainer{
-    height: 570px;
+    height: 600px;
     margin-bottom:10px;
+    overflow: hidden;
 }
 #indexContainer{
     height: 320px;

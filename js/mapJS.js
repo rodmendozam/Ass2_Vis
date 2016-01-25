@@ -5,10 +5,10 @@ var map = null;
 function initMap(year, myData){
         map = new Datamap({
         scope: 'world',
-        element: document.getElementById('container1'),
+        element: document.getElementById('mapContainer'),
         projection: 'mercator',
         backgroundColor: 'blue',
-        height: 500,
+
         fills: {
             defaultFill: 'black',
             class1: 'rgba(253,208,162,0.9)',
@@ -69,7 +69,7 @@ function initMap(year, myData){
                     output = "No Data";
                     output2 = "No earlier data exists";
                 }
-                return ['<div class="hoverinfo"><strong>',
+                return ['<div class="hoverinfo" style="margin-left: 396px; margin-top: 12px"><strong>',
                         geo.properties.name,
                         '<br/>' + year,
                         '<br/>' + "Internet users:  " + output,
@@ -78,7 +78,7 @@ function initMap(year, myData){
             }
         }
 
-    })
+    });
 }
 function updateMap(year){
     if (year < 1990 || year > 2011){
