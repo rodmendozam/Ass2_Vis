@@ -16,25 +16,29 @@
     <script type="text/javascript">
         //d3.select("body").append("p").text("New paragraph!");
         var myData;
-        d3.csv("data/internet.csv", function(error,data) {//callback function after error or finishing data is loaded
+
+        var dsv = d3.dsv(";", "text/plain");
+        dsv("data/internetNoName.csv", function(error,data) {//callback function after error or finishing data is loaded
             if(error){//Data didn't load properly
                 console.log(error);
             }else{
-                console.log(data[0]);
+                console.log(data);
             }
             //Functions to call after the data has been loaded
             myData = data;
 
         });
+
         var map = new Datamap({
         scope: 'world',
         element: document.getElementById('container1'),
         projection: 'mercator',
+        backgroundColor: 'blue',
         height: 500,
         fills: {
           defaultFill: 'grey',
-          class1: 'rgba(254,237,222,0.9)',
-          class2: 'rgba(253,190,133,0.9)',
+          class1: 'rgba(253,208,162,0.9)',
+          class2: 'rgba(253,174,107,0.9)',
           class3: 'rgba(253,141,60,0.9)',
           class4: 'rgba(230,85,13,0.9)',
           class5: 'rgba(166,54,3,0.9)'
@@ -50,8 +54,9 @@
           ZAF: {fillKey: 'class0' },
           MAD: {fillKey: 'class4' }
         }
-      })
 
+      })
+        map.legend();
         function arrayToText(){
         var dataset  = [ 5, 10, 15, 20, 25 ];
         d3.select("body").selectAll("p")
@@ -83,7 +88,7 @@
                 });
         }
         function svgExample(){
-            var dataset = [ 5, 10, 15, 20, 25 ];;
+            var dataset = [ 5, 10, 15, 20, 25 ];
             var w = 500;
             var h = 200;
             var svg = d3.select("body")
