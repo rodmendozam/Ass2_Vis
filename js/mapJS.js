@@ -32,6 +32,7 @@ function initMap(year, myData){
             geographyConfig: {
             popupTemplate: function(geo, data) {
                 var output;
+                var output2;
                 var test = false;
                 if (myData[year-1990][geo.id] == ""){
                     for (i = year-1; i >= 1990; i--){
@@ -43,16 +44,36 @@ function initMap(year, myData){
                     if(!test){
                         output = "0%";
                     }
-
+                    output2 = "No earlier data found";
+                    if (year == 1990){
+                        output2 = "No earlier data exists";
+                    }
                 } else if (parseFloat(myData[year-1990][geo.id]).toFixed(4) > 0){
+                    var original = parseFloat(parseFloat(myData[year-1990][geo.id]).toFixed(4));
+                    var change;
                     output = parseFloat(parseFloat(myData[year-1990][geo.id]).toFixed(4)) + "%";
+                    for (i = year-1; i >= 1990; i--){
+                        if (myData[i-1990][geo.id] != ""){
+                            console.log(original);
+                            change = parseFloat(parseFloat((original / parseFloat(myData[i-1990][geo.id]).toFixed(4))).toFixed(4));
+                            //console.log(myData[i-1990][geo.id]);
+                            output2 = "change from " + i + ": " + change;
+                            break;
+                        }
+                        output2 = "No earlier data found";
+                    }
+                    if (year == 1990){
+                        output2 = "No earlier data exists";
+                    }
                 } else {
                     output = "No Data";
+                    output2 = "No earlier data exists";
                 }
                 return ['<div class="hoverinfo"><strong>',
                         geo.properties.name,
                         '<br/>' + year,
                         '<br/>' + "Internet users:  " + output,
+                        '<br/>' + output2,
                         '</strong></div>'].join('');
             }
         }
