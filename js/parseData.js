@@ -20,14 +20,15 @@ $(document).ready(function() {
         }
         //Functions to call after the data has been loaded
 
-        for (i = 1; i < data.length; i++){
-            for (var key in data[i]) {
-                sortedData.push([i, [key, data[key]]]);
-                sortedData.sort(function (a, b) {
-                    return b[1] - a[1];
-                });
-            }
-        }
+        //for (i = 1; i < data.length; i++){
+        //    for (var key in data[i]) {
+        //        sortedData.push([i, [key, data[key]]]);
+        //        sortedData.sort(function (a, b) {
+        //            return b[1] - a[1];
+        //        });
+        //    }
+        //}
+
         //window.alert(sortedData);
         myData = data;
         //window.alert(myData);

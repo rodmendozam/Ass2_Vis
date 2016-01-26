@@ -3,3 +3,6 @@
  */
 
 
+var selected_year_from_list = 1991;
+
+console.log("The selected year is:" + selected_year_from_list);

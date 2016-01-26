@@ -5,18 +5,16 @@
     <title>Time-Series Connected</title>
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/container.css">
-
-
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
-
     <script src="http://datamaps.github.io/scripts/datamaps.world.min.js?v=1"></script>
     <script src="js/parseData.js"></script>
     <script src="js/mapJS.js"></script>
+    <script src="js/ranking.js"></script>
 </head>
 <body>
     <div id="mainContainer">
@@ -50,6 +48,14 @@
                             <li><a href="#">2011</a></li>
                         </ul>
                       </div>
+                    <div class="ranges">
+                        <div id="class1">color class range</div>
+                        <div id="class2">color class range</div>
+                        <div id="class3">color class range</div>
+                        <div id="class4">color class range</div>
+                        <div id="class5">color class range</div>
+                    </div>
+
                 </div>
                 <div id="rankingTitle">Global Ranking</div>
                 <ul>
@@ -57,8 +63,8 @@
                         <a href="#">1 <span>Country name</span></a>
                         <img src="img/Arrow.png">
                     </li>
-
                 </ul>
+
             </div>
         <div id="graphContainer">
             <div id="mapContainer" class="blackBorder">
