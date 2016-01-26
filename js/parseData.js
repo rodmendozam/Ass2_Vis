@@ -9,13 +9,9 @@ $(document).ready(function() {
     var countries = Datamap.prototype.worldTopo.objects.world.geometries;
     var countryMap = [];
     for (i = 0; i < countries.length; i++){
-        //var obj = {};
-        //obj[key] = countries[i].properties.name;
-        //countryMap.push(obj);
         var key = countries[i].id;
         countryMap[key] = countries[i].properties.name;
     }
-    console.log(countryMap);
     dsv("data/internetNoName.csv", function (error, data) {//callback function after error or finishing data is loaded
         if (error) {//Data didn't load properly
             console.log(error);
@@ -40,7 +36,6 @@ $(document).ready(function() {
             sortedData[i] = sortedData[i].sort(function(a, b){return b[2]-a[2]});
         }
 
-        console.log(sortedData);
         //window.alert(sortedData);
         myData = data;
         //window.alert(myData);

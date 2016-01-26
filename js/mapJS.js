@@ -7,8 +7,18 @@ function initMap(year, myData){
         map = new Datamap({
         scope: 'world',
         element: document.getElementById('mapContainer'),
+        done: function(datamap) {
+        datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
+            var output = [];
+            for (i = 0; i < myData.length; i++){
+                output.push({"year" : i+1990, "perc" : myData[i][geography.id], "country" : geography.properties.name});
+            }
+        });
+        },
         projection: 'mercator',
         backgroundColor: 'blue',
+
+
 
         fills: {
             defaultFill: 'black',
@@ -71,6 +81,8 @@ function initMap(year, myData){
                         '</strong></div>'].join('');
             }
         }
+
+
 
     });
 }
