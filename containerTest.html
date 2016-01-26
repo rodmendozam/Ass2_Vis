@@ -15,6 +15,7 @@
     <script src="js/parseData.js"></script>
     <script src="js/mapJS.js"></script>
     <script src="js/ranking.js"></script>
+    <script src="js/index.js"></script>
 </head>
 <body>
     <div id="mainContainer">
@@ -49,11 +50,34 @@
                         </ul>
                       </div>
                     <div class="ranges">
-                        <div id="class1">color class range</div>
-                        <div id="class2">color class range</div>
-                        <div id="class3">color class range</div>
-                        <div id="class4">color class range</div>
-                        <div id="class5">color class range</div>
+                        <div class="rangeSector">
+                            <div id="class1">color class range</div>
+                            <div id="class1Color"></div>
+                        </div>
+                        <div class="rangeSector">
+                            <div id="class2">color class range</div>
+                            <div id="class2Color"></div>
+                        </div>
+                        <div class="rangeSector">
+                            <div id="class3">color class range</div>
+                            <div id="class3Color"></div>
+                        </div>
+                        <div class="rangeSector">
+                            <div id="class4">color class range</div>
+                            <div id="class4Color"></div>
+                        </div>
+                        <div class="rangeSector">
+                            <div id="class5">color class range</div>
+                            <div id="class5Color"></div>
+                        </div>
+                        <div class="rangeSector">
+                            <div id="class6">Missing year data </div>
+                            <div id="class6Color"></div>
+                        </div>
+                        <div class="rangeSector">
+                            <div id="class7">No data in dataset</div>
+                            <div id="class7Color"></div>
+                        </div>
                     </div>
                 </div>
                 <div id="rankingTitle">Global Ranking</div>
@@ -70,9 +94,32 @@
 
             </div>
             <div id="indexContainer" class="blackBorder">
-                index
+                    <svg id="index_visualisation" width="1280" height="320"></svg>
             </div>
         </div>
     </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -22,11 +22,11 @@ function initMap(year, myData){
 
         fills: {
             defaultFill: 'black',
-            class1: 'rgba(253,208,162,0.9)',
-            class2: 'rgba(253,174,107,0.9)',
-            class3: 'rgba(253,141,60,0.9)',
-            class4: 'rgba(230,85,13,0.9)',
-            class5: 'rgba(166,54,3,0.9)'
+            class1: 'rgba(253,208,162, 1.0)',
+            class2: 'rgba(253,174,107,1.0)',
+            class3: 'rgba(253,141,60,1.0)',
+            class4: 'rgba(230,85,13,1.0)',
+            class5: 'rgba(166,54,3,1.0  )'
         },
 
         data: {
