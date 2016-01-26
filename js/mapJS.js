@@ -12,7 +12,14 @@ function initMap(year, myData){
             var output = [];
             for (i = 0; i < myData.length; i++){
                 output.push({"year" : i+1990, "perc" : myData[i][geography.id], "country" : geography.properties.name});
+
+
             }
+            //output is the country clicked on the map
+            mapCountryClicked(output);
+            //console.log(output);
+
+
         });
         },
         projection: 'mercator',

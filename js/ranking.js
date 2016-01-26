@@ -22,6 +22,7 @@ $(document).ready(function() {//when the DOM has loaded
         //UpdateRanking
 
         //UpdateIndexChart
+        cleanAllLinesFromIndexChart();
     });
 
 

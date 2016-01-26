@@ -15,6 +15,10 @@ h3{
     float: left;
     height: 930px;
 }
+#index_visualisation{
+    width: inherit;
+    height: inherit;
+}
 #infoContainer{
     margin: 10px;
     padding-bottom: 20px;
@@ -32,7 +36,8 @@ h3{
     overflow: hidden;
 }
 #indexContainer{
-    height: 320px;
+    height: 400px;
+    width: 1280px;
 }
 .blackBorder{
     border-width:1px;
@@ -146,12 +151,12 @@ li:hover{
 
 
 /*inde chart */
-.axis path {
+[class^=axis] path {
     fill: none;
     stroke: #777;
     shape-rendering: crispEdges;
 }
-.axis text {
+[class^=axis] text {
     font-family: Lato;
     font-size: 13px;
 }
