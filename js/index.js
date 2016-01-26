@@ -3,73 +3,95 @@
  */
 
 //variables
+var dataCurrent = [];
 var data = [{
     "sale": "75.5",
     "year": "1990",
     "countryName": "USA"
 }, {
     "sale": "0",
-    "year": "1991"
+    "year": "1991",
+    "countryName": "USA"
 }, {
     "sale": "45.6",
-    "year": "1992"
+    "year": "1992",
+    "countryName": "USA"
 }, {
     "sale": "80.0",
-    "year": "1993"
+    "year": "1993",
+    "countryName": "USA"
 }, {
     "sale": "20.5",
-    "year": "1994"
+    "year": "1994",
+    "countryName": "USA"
 }, {
     "sale": "33.3",
-    "year": "1995"
+    "year": "1995",
+    "countryName": "USA"
 },{
     "sale": "5.6",
-    "year": "1996"
+    "year": "1996",
+    "countryName": "USA"
 }, {
     "sale": "16.7",
-    "year": "1997"
+    "year": "1997",
+    "countryName": "USA"
 }, {
     "sale": "19.2",
-    "year": "1998"
+    "year": "1998",
+    "countryName": "USA"
 }, {
     "sale": "88.4",
-    "year": "1999"
+    "year": "1999",
+    "countryName": "USA"
 }, {
     "sale": "91.4",
-    "year": "2000"
+    "year": "2000",
+    "countryName": "USA"
 }, {
     "sale": "33.1",
-    "year": "2001"
+    "year": "2001",
+    "countryName": "USA"
 }, {
     "sale": "42.5",
-    "year": "2002"
+    "year": "2002",
+    "countryName": "USA"
 }, {
     "sale": "32.32",
-    "year": "2003"
+    "year": "2003",
+    "countryName": "USA"
 }, {
     "sale": "56.4",
-    "year": "2004"
+    "year": "2004",
+    "countryName": "USA"
 }, {
     "sale": "47.1",
-    "year": "2005"
+    "year": "2005",
+    "countryName": "USA"
 }, {
     "sale": "67.5",
-    "year": "2006"
+    "year": "2006",
+    "countryName": "USA"
 }, {
     "sale": "31.2",
-    "year": "2007"
+    "year": "2007",
+    "countryName": "USA"
 }, {
     "sale": "11.8",
-    "year": "2008"
+    "year": "2008",
+    "countryName": "USA"
 }, {
     "sale": "21.5",
-    "year": "2009"
+    "year": "2009",
+    "countryName": "USA"
 }, {
     "sale": "84.8",
-    "year": "2010"
+    "year": "2010",
+    "countryName": "USA"
 }, {
     "sale": "75.0",
-    "year": "2011"
+    "year": "2011",
+    "countryName": "USA"
 }];
 
 
@@ -135,6 +157,9 @@ $(document).ready(function() {//when the DOM has loaded
           .attr('stroke-width', 1)
           .attr('fill', 'none');
         return 1;
+    }
+    function joinDataToDataCurrent(data_obj){//get data onClick from map and add it to data current
+        dataCurrent.push(data_obj);
     }
 });
 
