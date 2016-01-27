@@ -2,6 +2,30 @@
 h3{
     font-size: 135%;
 }
+/*ranking css*/
+#rankingList div div p, #rankingList h3 p{
+    display: inline;
+
+}
+
+#rankingList h3{
+    position: relative;
+    min-height: 50px;
+    overflow: hidden;
+
+}
+.country{
+    float: left;
+    width: 165px;
+    margin-left: 5px;
+    margin-right: 5px;
+
+}
+
+.perc{
+    float: left;
+    width: 25px;
+}
 
 /*BLOCK CONTAINERS*/
 #mainContainer{
@@ -14,6 +38,7 @@ h3{
     width: 320px;
     float: left;
     height: 930px;
+
 }
 #index_visualisation{
     width: inherit;
