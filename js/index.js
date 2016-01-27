@@ -244,7 +244,7 @@ function initIndex(){
     dataCurrent = [];
     vis = d3.select("#index_visualisation"),
     WIDTH = 1280,
-    HEIGHT = 350,
+    HEIGHT = 400,
     MARGINS = {
         top: 20,
         right: 20,
