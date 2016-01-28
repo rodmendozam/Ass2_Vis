@@ -1,9 +1,3 @@
-/*DELETE REMEMBER*/
-#rankingList{
-        overflow: hidden;
-    height: 100px;
-}
-
 
 /*GENERAL*/
 h3{
@@ -31,6 +25,13 @@ h3{
     overflow: hidden;
 
 }
+
+#rankingList {
+    height: 761px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
 .country{
     float: left;
     width: 165px;

@@ -17,6 +17,7 @@ function initMap(year, myData, sortedData){
                 }
             }
             //output is the country clicked on the map
+<<<<<<< HEAD
 //<<<<<<< HEAD
 
 //======
@@ -27,9 +28,27 @@ function initMap(year, myData, sortedData){
                 if (sortedData[getYear()-1990][i][0] == geography.id){
                     $( "#rankingList" ).accordion( "option", "active", i );
                 }
+=======
+            for (i = 0; i < 168; i++){
+                    if (sortedData[getYear()-1990][i][0] == geography.id){
+                        $( "#rankingList" ).accordion( "option", "active", i );
+                    }
+>>>>>>> origin/master
             }
+            $("#rankingList").accordion({activate: function(){
+                $('#rankingList').animate({
+                scrollTop: $('#rankingList').scrollTop() + ($("#"+geography.id).position().top - $('#rankingList').position().top)  + ($("#"+geography.id).height()/2 - 15)
+            }, 1000, function() {
+                    $("#rankingList").accordion({activate: function(){}});
             });
+<<<<<<< HEAD
 //>>>>>>> origin/master
+=======
+            } });
+
+
+
+>>>>>>> origin/master
             mapCountryClicked(output);
             //console.log(output);
 
@@ -125,8 +144,13 @@ function updateMap(year){
         }
     }
     max = parseFloat(parseFloat(max).toFixed(4));
-    var range = max / 5.0;
-    range = parseFloat(parseFloat(range).toFixed(4));
+    var range;
+    if (false){
+        range = 20;
+    } else {
+        range = max / 5.0
+        range = parseFloat(parseFloat(range).toFixed(4));
+    }
 
         $('#class1').text(parseFloat(0.001) + "-" + parseFloat(parseFloat(range-0.001).toFixed(4)) + "%");
         $('#class2').text(parseFloat(parseFloat(range).toFixed(4)) + "-" + parseFloat(parseFloat(2*range-0.001).toFixed(4)) + "%");
