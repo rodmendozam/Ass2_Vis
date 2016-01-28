@@ -1,15 +1,21 @@
 /**
  * Created by s150834 on 26-1-2016.
  */
-/*useful link http://code.tutsplus.com/tutorials/building-a-multi-line-chart-using-d3js-part-2--cms-22973*/
-/*useful link  */
+/*useful link  tutorial of d3         http://code.tutsplus.com/tutorials/building-a-multi-line-chart-using-d3js-part-2--cms-22973*/
+/*useful link  contrasting colors alg http://godsnotwheregodsnot.blogspot.ru/2012/09/color-distribution-methodology.html*/
 //variables
 var manualAxis = false;
 var minAxis = 0;
 var maxAxis = 0.2;
 var tester;
-var colorBrewerQualitive = ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e31a1c","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928"];
-var dataCurrent = [];
+var colorBrewerQualitive = ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e85ebe","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
+                            "","","","","","","","","","","","",
+                            "","","","","","","","","","","","",
+                            "","","","","","","","","","","",""];
+var dataPercWithoutGroups = [];
+var vis,lineGen,dataPercWithGroups;
+
+//Data for testing dummy
 var data = [{
     "perc": "75.5",
     "year": "1990",
@@ -188,21 +194,32 @@ var data2 = [{
     "year": "2011",
     "country": "MEX"
 }];
-var vis,lineGen,dataGroup, CircleGen;
-var colorss = ["blue","red"];
+d3.selection.prototype.moveToFront = function() {
+      return this.each(function(){
+        this.parentNode.appendChild(this);
+      });
+    };
+d3.selection.prototype.moveToBack = function() {
+    return this.each(function() {
+        var firstChild = this.parentNode.firstChild;
+        if (firstChild) {
+            this.parentNode.insertBefore(this, firstChild);
+        }
+    });
+};
 
 //FUNCTIONS
-function joinDataToDataCurrent(data_obj){//get data onClick from map and add it to data current FIX IS NOT CONCAT
-        dataCurrent = dataCurrent.concat(data_obj);
+function joinDataTodataPercWithoutGroups(data_obj){//get data onClick from map and add it to data current FIX IS NOT CONCAT
+        dataPercWithoutGroups = dataPercWithoutGroups.concat(data_obj);
 }
 function deleteCountryFromData(country){
     var tempData = [];
-    dataCurrent.forEach(function(element, index, array){
+    dataPercWithoutGroups.forEach(function(element, index, array){
         //console.log(element.year);
         if(element.country != country)
             tempData.push(element);
     });
-    dataCurrent = tempData;
+    dataPercWithoutGroups = tempData;
 }
 function update_y_axis(){//
 
@@ -222,39 +239,54 @@ function update_y_axis(){//
         d3.select("g.axisY").remove();//remove axis
         //add new axis
         yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain(
-            [ d3.min(dataCurrent, function(d) {return d.perc;}),
-            d3.max(dataCurrent, function(d) {return +d.perc;})]);
+            [ d3.min(dataPercWithoutGroups, function(d) {return d.perc;}),
+            d3.max(dataPercWithoutGroups, function(d) {return +d.perc;})]);
         yAxis = d3.svg.axis()
-            .scale(yScale)
+            .scale(yScale).ticks(10)
             .orient("left");
         vis.append("svg:g")
             .attr("class","axisY")
             .attr("transform", "translate(" + (MARGINS.left) + ",0)")
             .call(yAxis);
+
+
+        //grid
+        d3.selectAll("line.y").remove();//remove axis
+        vis.selectAll("line.y")
+          .data(yScale.ticks())
+          .enter().append("line")
+          .attr("class", "y")
+          .attr("x1", xScale(1990))
+          .attr("x2", xScale(2011))
+          .attr("y1", yScale)
+          .attr("y2", yScale)
+          .style("stroke", "#ccc");
     }
 
 
-    //console.log(d3.min(dataCurrent, function(d) {return d.perc;}));
-    //console.log(d3.max(dataCurrent, function(d) {return +d.perc;}));
+    //console.log(d3.min(dataPercWithoutGroups, function(d) {return d.perc;}));
+    //console.log(d3.max(dataPercWithoutGroups, function(d) {return +d.perc;}));
 
 
 
 }
+
+
 function initIndex(){
-    dataCurrent = [];
+    dataPercWithoutGroups = [];
     vis = d3.select("#index_visualisation"),
     WIDTH = 1280,
-    HEIGHT = 400,
+    HEIGHT = 440,
     MARGINS = {
-        top: 20,
+        top: 50,
         right: 20,
-        bottom: 20,
+        bottom: 50,
         left: 50
     },
-    xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([1990,2011]),
+    xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([1990,2011]),//Define Scales
     yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([-50,100]),
     xAxis = d3.svg.axis()
-        .scale(xScale),
+        .scale(xScale).ticks(22);
     yAxis = d3.svg.axis()
         .scale(yScale)
         .orient("left");
@@ -268,6 +300,29 @@ function initIndex(){
         .attr("class","axisY")
         .attr("transform", "translate(" + (MARGINS.left) + ",0)")
         .call(yAxis);
+
+    //Create Background grid
+    vis.selectAll("line.x")
+      .data(xScale.ticks(22))
+      .enter().append("line")
+      .attr("class", "x")
+      .attr("x1", xScale)
+      .attr("x2", xScale)
+      .attr("y1", yScale(-50))
+      .attr("y2", yScale(100))
+      .style("stroke", "#ccc");
+    // Draw Y-axis grid lines
+    vis.selectAll("line.y")
+      .data(yScale.ticks(8))
+      .enter().append("line")
+      .attr("class", "y")
+      .attr("x1", xScale(1990))
+      .attr("x2", xScale(2011))
+      .attr("y1", yScale)
+      .attr("y2", yScale)
+      .style("stroke", "#ccc");
+
+
 
     //d3 api method to create line that depends on the year and percentage
     lineGen = d3.svg.line()
@@ -287,19 +342,20 @@ function updateIndex(){
     d3.selectAll(".circle").remove();
     update_y_axis();
     //Sort data by key
-    dataGroup = d3.nest()
+    dataPercWithGroups = d3.nest()
             .key(function(d) {
                 return d.country;
             })
-            .entries( dataCurrent );
+            .entries( dataPercWithoutGroups );
 
     //Each data to a line and draw
-    dataGroup.forEach(function(d, i) {
+    dataPercWithGroups.forEach(function(d, i) {
         vis.append('svg:path')
             .attr('d', lineGen(d.values))
             .attr("class", "line")
             .attr('stroke', colorBrewerQualitive[i])
-            .attr('stroke-width', 2)
+            .attr('id', 'line_' + d.key.replace(/\s/g, ''))
+            .attr('stroke-width', 4)
             .attr('fill', 'none');
         var colorForCircleIndex = i;
         for (var i = 0, len = d.values.length; i < len; i++){
@@ -308,11 +364,49 @@ function updateIndex(){
             .attr("cx", xScale(d.values[i].year))
             .attr("cy", yScale(d.values[i].perc))
             .attr("r", 4)
-                .attr('class','circle')
+            .attr('class','circle' + ' circle_' + d.key.replace(/\s/g, ''))
+            //.attr('class','circle_' + d.key)
             .style("fill", colorBrewerQualitive[colorForCircleIndex]);
         }
 
         //tester = d;
+    });
+
+    //add labels
+    d3.selectAll("text.legend").remove();
+    lSpace = WIDTH/dataPercWithGroups.length;
+    dataPercWithGroups.forEach(function(d,i){
+        var trimKey = d.key.replace(/\s/g, '');//delete white spaces
+        var colorFromStroke = d3.select("#line_" + trimKey).attr('stroke');
+        vis.append("text")
+            .attr("x", (lSpace / 2) + i * lSpace)
+            .attr("y", HEIGHT)
+            .attr("fill",colorFromStroke)
+            .attr("class", "legend")
+            //.style("fill", "black")
+            .on('click', function() {
+                //var active = d.active ? false : true;
+                //var opacity = active ? 0 : 1;
+
+                //console.log(d3.select("#line_" + trimKey).attr('stroke'));
+                //paint all lines gray
+                d3.selectAll(".line").classed("strokeGray", true);
+                d3.selectAll(".circle").classed("fillGray", true);
+
+                //remove gray from selected line
+                d3.select("#line_" + trimKey).classed("strokeGray", false);
+                d3.selectAll(".circle_"+ trimKey).classed("fillGray", false);
+
+
+                //paint red the selected line
+                d3.select("#line_" + trimKey).classed("strongHighlightStroke", true);
+                d3.selectAll(".circle_"+ trimKey).classed("strongHighlightFill", true);
+                d3.select("#line_" + trimKey).moveToFront();//bring to the front svg
+                //d3.select(".circle_"+ trimKey).moveToFront();//not working
+
+            })
+            .text(d.key);
+            //console.log(d.key);
     });
 
 }
@@ -321,7 +415,7 @@ function mapCountryClicked(mapClickedArray){
     var BreakException= {};
     var existInCurrentData = false;
     try{
-        dataCurrent.forEach(function(d,i){
+        dataPercWithoutGroups.forEach(function(d,i){
             if(mapClickedArray[0].country == d.country)
                 throw BreakException;
         });
@@ -329,7 +423,7 @@ function mapCountryClicked(mapClickedArray){
         existInCurrentData = true;
     }
     if(!existInCurrentData){
-        joinDataToDataCurrent(mapClickedArray);
+        joinDataTodataPercWithoutGroups(mapClickedArray);
         //Call for an update
         updateIndex();
     }
@@ -337,13 +431,55 @@ function mapCountryClicked(mapClickedArray){
 function cleanAllLinesFromIndexChart(){
     d3.selectAll("path.line").remove();
     d3.selectAll(".circle").remove();
-    dataCurrent = [];
+    dataPercWithoutGroups = [];
 }
+function addLabels(){
+    //lSpace = WIDTH/dataPercWithGroups.length;
+
+}
+
+
 //DOM loaded
 $(document).ready(function() {//when the DOM has loaded
+    initIndex();//Initialize map
 
-    initIndex();
+    //Form handler
+    $('#axisMethod').change(function(){
+       var yAxisStatus = $('#axisMethod option:selected' ).text() ;
+        if(yAxisStatus == 'Manual'){//Handle Manual
+            manualAxis = true;
+            //Activate Controlers
+            $('#minInputValue').prop('disabled', false);
+            $('#maxInputValue').prop('disabled', false);
+            //$('#buttonYaxis').prop('disabled', false);
+        }
+        else{//Handle Auto
+            manualAxis = false;
+            $('#minInputValue').prop('disabled', true);
+            $('#maxInputValue').prop('disabled', true);
+            //$('#buttonYaxis').prop('disabled', true);
+        }
+    });
+    $("#buttonYaxis").click( function(){
+        if(!manualAxis) {//automatic botton handler
+            //update_y_axis();
+            updateIndex();
+        }else{//manual  botton handler
+            minAxis = +$('#minInputValue').val();
+            maxAxis = +$('#maxInputValue').val();
+            console.log("Min: " + minAxis + " Max: " + maxAxis);
+            //update_y_axis();
+            updateIndex();
+        }
 
+    });
+    $("#graphMethod").change( function(){//Graphic Mode changed
+       
+    });
+
+    $("#buttonClear").click( function(){//Graphic Mode changed
+       cleanAllLinesFromIndexChart();
+    });
 });
 
 
