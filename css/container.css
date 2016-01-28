@@ -27,7 +27,7 @@ h3{
 }
 
 #rankingList {
-    height: 761px;
+    height: inherit;
     overflow: scroll;
     overflow-x: hidden;
 }
@@ -43,6 +43,7 @@ h3{
 .perc{
     float: left;
     width: 25px;
+    font-size: 80%;
 }
 
 /*index chart*/
