@@ -17,9 +17,9 @@ function initMap(year, myData, sortedData){
                 }
             }
             //output is the country clicked on the map
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
-=======
+//======
             $('html, body').animate({
                 scrollTop: $("#"+geography.id).offset().top
             }, 1000, function() {
@@ -29,7 +29,7 @@ function initMap(year, myData, sortedData){
                 }
             }
             });
->>>>>>> origin/master
+//>>>>>>> origin/master
             mapCountryClicked(output);
             //console.log(output);
 
@@ -187,3 +187,32 @@ function getColorData(){
    //     ZAF: {fillKey: 'class5'},
    //     MAD: {fillKey: 'class5'}
     //});
+function rangeTypeMode(){//get the current mode seletion for the range mode display
+    var rangeMethodStatus = $('#rangeMethodDropmenu option:selected').text();
+    return rangeMethodStatus == 'Automatic' ? 1 : 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

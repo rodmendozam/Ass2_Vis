@@ -8,12 +8,15 @@ var manualAxis = false;
 var minAxis = 0;
 var maxAxis = 0.2;
 var tester;
-var colorBrewerQualitive = ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e85ebe","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#ffff99","#b15928",
-                            "","","","","","","","","","","","",
-                            "","","","","","","","","","","","",
-                            "","","","","","","","","","","",""];
+var colorBrewerQualitive = ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e85ebe","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#dd6937","#b15928",
+                            "#009bff","#ffb167","#a5ffd2","#a75740","#5fad4e","#005f39","#ff6e41","#b500ff","#7544b1","#98ff52","#008f9c","#620e00",
+                            "#ffe502","#00ffc6","#deff74","#43002c","#bb8800","#968ae8","#be9970","#91d0cb","#0e4ca1","#788231","#e56ffe","#004754",
+                            "#01d0ff","#ff74a3","#c28c9f","#001544","#9e008e","#00b917","#bdd393","#263400","#bdc6ff","#683d3b","#00ae7e","#a42400",
+                            "#ff0056","#85a900","#7e2dd2","#fe8900","#ff029d","#6a826c","#ff937e","#d5ff00","#0076ff","#90fb92","#774d00","#95003a",
+                            "#010067","#006401","#ffdb66","#ffa6fe","#7a4782","#000000"];
 var dataPercWithoutGroups = [];
 var vis,lineGen,dataPercWithGroups;
+var dataIndexWithoutGroups = [];
 
 //Data for testing dummy
 var data = [{
@@ -350,10 +353,13 @@ function updateIndex(){
 
     //Each data to a line and draw
     dataPercWithGroups.forEach(function(d, i) {
+        //console.log("len is: "+dataPercWithGroups.length);
+        //console.log(i);
+        var randomColorSelector = Math.floor(Math.random()*16777215).toString(16);
         vis.append('svg:path')
             .attr('d', lineGen(d.values))
             .attr("class", "line")
-            .attr('stroke', colorBrewerQualitive[i])
+            .attr('stroke', (i < dataPercWithGroups.length ? colorBrewerQualitive[i] : randomColorSelector ) )//assign color from list if too many colors already choosen create a random
             .attr('id', 'line_' + d.key.replace(/\s/g, ''))
             .attr('stroke-width', 4)
             .attr('fill', 'none');
@@ -366,7 +372,7 @@ function updateIndex(){
             .attr("r", 4)
             .attr('class','circle' + ' circle_' + d.key.replace(/\s/g, ''))
             //.attr('class','circle_' + d.key)
-            .style("fill", colorBrewerQualitive[colorForCircleIndex]);
+            .style("fill", (colorForCircleIndex < dataPercWithGroups.length ? colorBrewerQualitive[colorForCircleIndex] : randomColorSelector ));
         }
 
         //tester = d;
@@ -437,7 +443,15 @@ function addLabels(){
     //lSpace = WIDTH/dataPercWithGroups.length;
 
 }
-
+function setGraphTitle(modeTitle){//Adds or changes the title depending on graphic method
+    //console.log(modeTitle);
+    //vis.append("text")
+    //        .attr("x", xScale(50))
+    //        .attr("y", yScale(50))
+    //        .attr("fill",'black')
+    //        .attr("class", "legendTitle")
+    //        .text('Title');
+}
 
 //DOM loaded
 $(document).ready(function() {//when the DOM has loaded
@@ -474,7 +488,7 @@ $(document).ready(function() {//when the DOM has loaded
 
     });
     $("#graphMethod").change( function(){//Graphic Mode changed
-       
+       setGraphTitle($("#graphMethod option:selected").text())
     });
 
     $("#buttonClear").click( function(){//Graphic Mode changed

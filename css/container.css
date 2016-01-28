@@ -1,6 +1,23 @@
+/*DELETE REMEMBER*/
+#rankingList{
+        overflow: hidden;
+    height: 100px;
+}
+
+
 /*GENERAL*/
 h3{
     font-size: 135%;
+}
+
+/*range type container*/
+#rangeTypeContainer{
+    margin-top: 0px;
+}
+#rangeTypeContainer select{
+    width: 40%;
+    float: right;
+    display: inline;
 }
 /*ranking css*/
 #rankingList div div p, #rankingList h3 p{
