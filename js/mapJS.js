@@ -17,23 +17,11 @@ function initMap(year, myData, sortedData){
                 }
             }
             //output is the country clicked on the map
-<<<<<<< HEAD
-//<<<<<<< HEAD
 
-//======
-            $('html, body').animate({
-                scrollTop: $("#"+geography.id).offset().top
-            }, 1000, function() {
-                for (i = 0; i < 168; i++){
-                if (sortedData[getYear()-1990][i][0] == geography.id){
-                    $( "#rankingList" ).accordion( "option", "active", i );
-                }
-=======
             for (i = 0; i < 168; i++){
                     if (sortedData[getYear()-1990][i][0] == geography.id){
                         $( "#rankingList" ).accordion( "option", "active", i );
                     }
->>>>>>> origin/master
             }
             $("#rankingList").accordion({activate: function(){
                 $('#rankingList').animate({
@@ -41,14 +29,9 @@ function initMap(year, myData, sortedData){
             }, 1000, function() {
                     $("#rankingList").accordion({activate: function(){}});
             });
-<<<<<<< HEAD
-//>>>>>>> origin/master
-=======
+
             } });
-
-
-
->>>>>>> origin/master
+                    //orig
             mapCountryClicked(output);
             //console.log(output);
 
@@ -145,7 +128,7 @@ function updateMap(year){
     }
     max = parseFloat(parseFloat(max).toFixed(4));
     var range;
-    if (false){
+    if (!rangeTypeMode()){
         range = 20;
     } else {
         range = max / 5.0
@@ -181,7 +164,7 @@ function updateMap(year){
         }
 
     }
-    console.log(data);
+    //console.log(data);
     setColorData(data);
     map.updateChoropleth(data);
     updateList(year + 1990);

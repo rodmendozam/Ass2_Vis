@@ -494,6 +494,10 @@ $(document).ready(function() {//when the DOM has loaded
     $("#buttonClear").click( function(){//Graphic Mode changed
        cleanAllLinesFromIndexChart();
     });
+
+    $("#rangeMethodDropmenu").change(function(){
+        updateMap(selected_year_from_list);
+    });
 });
 
 
