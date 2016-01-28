@@ -17,10 +17,23 @@ function initMap(year, myData, sortedData){
                 }
             }
             //output is the country clicked on the map
+<<<<<<< HEAD
+//<<<<<<< HEAD
+
+//======
+            $('html, body').animate({
+                scrollTop: $("#"+geography.id).offset().top
+            }, 1000, function() {
+                for (i = 0; i < 168; i++){
+                if (sortedData[getYear()-1990][i][0] == geography.id){
+                    $( "#rankingList" ).accordion( "option", "active", i );
+                }
+=======
             for (i = 0; i < 168; i++){
                     if (sortedData[getYear()-1990][i][0] == geography.id){
                         $( "#rankingList" ).accordion( "option", "active", i );
                     }
+>>>>>>> origin/master
             }
             $("#rankingList").accordion({activate: function(){
                 $('#rankingList').animate({
@@ -28,10 +41,14 @@ function initMap(year, myData, sortedData){
             }, 1000, function() {
                     $("#rankingList").accordion({activate: function(){}});
             });
+<<<<<<< HEAD
+//>>>>>>> origin/master
+=======
             } });
 
 
 
+>>>>>>> origin/master
             mapCountryClicked(output);
             //console.log(output);
 
@@ -194,3 +211,32 @@ function getColorData(){
    //     ZAF: {fillKey: 'class5'},
    //     MAD: {fillKey: 'class5'}
     //});
+function rangeTypeMode(){//get the current mode seletion for the range mode display
+    var rangeMethodStatus = $('#rangeMethodDropmenu option:selected').text();
+    return rangeMethodStatus == 'Automatic' ? 1 : 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
