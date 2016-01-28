@@ -3,20 +3,33 @@
  */
 var map = null;
 var year;
-function initMap(year, myData){
+var colorData;
+function initMap(year, myData, sortedData){
         map = new Datamap({
         scope: 'world',
         element: document.getElementById('mapContainer'),
         done: function(datamap) {
         datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
             var output = [];
-            for (i = 0; i < myData.length; i++){
-                output.push({"year" : i+1990, "perc" : myData[i][geography.id], "country" : geography.properties.name});
-
-
+            for (i = 0; i < myData.length; i++) {
+                if (myData[i][geography.id] != undefined) {
+                    output.push({"year": i + 1990, "perc": myData[i][geography.id], "country": geography.properties.name});
+                }
             }
             //output is the country clicked on the map
+<<<<<<< HEAD
 
+=======
+            $('html, body').animate({
+                scrollTop: $("#"+geography.id).offset().top
+            }, 1000, function() {
+                for (i = 0; i < 168; i++){
+                if (sortedData[getYear()-1990][i][0] == geography.id){
+                    $( "#rankingList" ).accordion( "option", "active", i );
+                }
+            }
+            });
+>>>>>>> origin/master
             mapCountryClicked(output);
             //console.log(output);
 
@@ -95,6 +108,8 @@ function initMap(year, myData){
     });
 }
 function updateMap(year){
+
+    //console.log(sortedData);
     setYear(year);
     if (year < 1990 || year > 2011){
         return console.log("error year not within bounds");
@@ -120,11 +135,11 @@ function updateMap(year){
         $('#class5').text(">" + parseFloat(parseFloat(4*range-0.001).toFixed(4)) + "%");
 
 
-
+    var data = {};
     for (key in myData[year]) {
         //console.log(key);
         if (myData[year].hasOwnProperty(key)) {
-            var data = {};
+
             var value = myData[year][key];
             if (value > 0 && value < range) {
                 data[key] = 'rgba(253,208,162,0.9)';
@@ -139,9 +154,14 @@ function updateMap(year){
             } else {
                 data[key] = "grey";
             }
-            map.updateChoropleth(data);
         }
+
     }
+    console.log(data);
+    setColorData(data);
+    map.updateChoropleth(data);
+    updateList(year + 1990);
+
 }
 
 function setYear(newYear){
@@ -149,6 +169,13 @@ function setYear(newYear){
 }
 function getYear(){
     return year;
+}
+
+function setColorData(data){
+    colorData = data;
+}
+function getColorData(){
+    return colorData;
 }
     //map.updateChoropleth({
     //    USA: {fillKey: 'class5'},
