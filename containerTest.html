@@ -19,7 +19,7 @@
 </head>
 <body>
     <div id="mainContainer">
-            <div id="rankingContainer" class="blackBorder">
+        <div id="rankingContainer" class="blackBorder">
                 <div id="infoContainer">
                       <div class="dropdown">
                         <button id="yearButton" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Years
@@ -83,12 +83,7 @@
                 <div id="rankingTitle">Global Ranking</div>
 
                 <div id="rankingList">
-                    <ul>
-                        <li>
-                            <a href="#">1 <span>Country name</span></a>
-                            <img src="img/Arrow.png">
-                        </li>
-                    </ul>
+
                 </div>
             </div>
         <div id="graphContainer">
@@ -96,10 +91,35 @@
 
             </div>
             <div id="indexContainer" class="blackBorder">
-                    <svg id="index_visualisation" width="" height=""></svg>
+                <svg id="index_visualisation" width="" height=""></svg>
+                <form class="form-inline formMargin">
+                    <div class="form-group">
+                        <label for="axisMethod">Y-axis method: </label>
+                        <select class="form-control marginLeft5" id="axisMethod">
+                            <option>Automatic</option>
+                            <option>Manual</option>
+                        </select>
+                        <label class="marginLeft5" for="minInputValue">Min:</label>
+                        <input type="number" class="form-control" disabled="disabled" id="minInputValue" placeholder="Type min value">
+                        <label class="marginLeft5" for="maxInputValue">Max:</label>
+                        <input type="number" class="form-control" disabled="disabled" id="maxInputValue" placeholder="Type max value">
+                        <button id="buttonYaxis" type="button" class="btn btn-default marginLeft5" >Update Axis</button>
+
+                    </div>
+                    <div class="clearfix marginTopClearfix"></div>
+                    <div class="form-group">
+                        <label for="graphMethod">Graphic Method: </label>
+                        <select class="form-control marginLeft5" id="graphMethod">
+                            <option>Percentage</option>
+                            <option>Index Chart</option>
+                        </select>
+                        <button id="buttonClear" type="button" class="btn btn-default marginLeft5" >Clear Path</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+    <div id="bottom_space"></div>
 </body>
 </html>
 

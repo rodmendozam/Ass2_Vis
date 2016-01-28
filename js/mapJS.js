@@ -16,6 +16,7 @@ function initMap(year, myData){
 
             }
             //output is the country clicked on the map
+
             mapCountryClicked(output);
             //console.log(output);
 
