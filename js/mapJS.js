@@ -196,7 +196,7 @@ function getColorData(){
     //});
 function rangeTypeMode(){//get the current mode seletion for the range mode display
     var rangeMethodStatus = $('#rangeMethodDropmenu option:selected').text();
-    return rangeMethodStatus == 'Automatic' ? 1 : 0;
+    return rangeMethodStatus == 'Relative' ? 1 : 0;
 }
 
 
