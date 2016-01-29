@@ -57,9 +57,11 @@ function updateList(year){
                     break;
                 }
             }
-            var positionRecord = parseInt(sortedData[j-1990][index-1][3]);
-            var typeOfArrowToDisplayInCSS =  positionRecord == 1 ? 'upperArrow' : (positionRecord == 0 ? 'equalArrow' : 'lowerArrow');
-            //console.log(typeOfArrowToDisplayInCSS);
+
+            //Setting arrows for the rankings up,down or equal
+            var positionRecord = parseInt(sortedData[j-1990][index-1][3]);//1 increased 0 stay the same -1 went down on the position table
+            var typeOfArrowToDisplayInCSS =  positionRecord == 1 ? 'upperArrow' : (positionRecord == 0 ? 'equalArrow' : 'lowerArrow');//set string class depending on code
+
             content += "<div><p>" + parseInt(j) + "</p> <p>" + index + "/168</p> <p class=\""+ typeOfArrowToDisplayInCSS +"\">" + "</p></div>";
 
         }

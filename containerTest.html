@@ -117,19 +117,12 @@
                     <label class="marginLeft5" for="maxInputValue">Max:</label>
                     <input type="number" class="form-control" disabled="disabled" id="maxInputValue" placeholder="Type max value">
                     <button id="buttonYaxis" type="button" class="btn btn-default marginLeft5" >Update Axis</button>
+                    <button id="buttonClear" type="button" class="btn btn-default marginLeft5" >Clear Path</button>
                 </div>
                 <!--<div class="clearfix marginTopClearfix"></div>-->
-                <div class="form-group marginLeft5">
-                    <label for="graphMethod">Graphic Method: </label>
-                    <select class="form-control marginLeft5" id="graphMethod">
-                        <option>Percentage</option>
-                        <option>Index Chart</option>
-                    </select>
-                    <button id="buttonClear" type="button" class="btn btn-default marginLeft5" >Clear Path</button>
 
-                </div>
-                <div class="form-group " style="margin-top: 10px">
-                    <label for="partitionLevel">Y-axis partitions: </label>
+                <div class="form-group " >
+                    <label class="marginLeft5" for="partitionLevel">Y-axis partitions: </label>
                     <select class="form-control marginLeft5" id="partitionLevel">
                         <option>6</option>
                         <option>8</option>
@@ -142,6 +135,13 @@
                         <option>22</option>
                         <option>24</option>
                         <option>26</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-top: 10px">
+                    <label for="graphMethod">Graphic Method: </label>
+                    <select class="form-control marginLeft5" id="graphMethod">
+                        <option>Percentage</option>
+                        <option>Index Chart</option>
                     </select>
                 </div>
             </form>
