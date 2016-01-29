@@ -100,11 +100,11 @@
         </div>
     </div>
     <div id="graphContainer">
+
         <div id="mapContainer" class="blackBorder">
 
         </div>
         <div id="indexContainer" class="blackBorder">
-            <svg id="index_visualisation" width="" height=""></svg>
             <form class="form-inline formMargin">
                 <div class="form-group">
                     <label for="axisMethod">Y-axis method: </label>
@@ -117,18 +117,40 @@
                     <label class="marginLeft5" for="maxInputValue">Max:</label>
                     <input type="number" class="form-control" disabled="disabled" id="maxInputValue" placeholder="Type max value">
                     <button id="buttonYaxis" type="button" class="btn btn-default marginLeft5" >Update Axis</button>
-
                 </div>
-                <div class="clearfix marginTopClearfix"></div>
-                <div class="form-group">
+                <!--<div class="clearfix marginTopClearfix"></div>-->
+                <div class="form-group marginLeft5">
                     <label for="graphMethod">Graphic Method: </label>
                     <select class="form-control marginLeft5" id="graphMethod">
                         <option>Percentage</option>
                         <option>Index Chart</option>
                     </select>
                     <button id="buttonClear" type="button" class="btn btn-default marginLeft5" >Clear Path</button>
+
+                </div>
+                <div class="form-group " style="margin-top: 10px">
+                    <label for="partitionLevel">Y-axis partitions: </label>
+                    <select class="form-control marginLeft5" id="partitionLevel">
+                        <option>6</option>
+                        <option>8</option>
+                        <option selected>10</option>
+                        <option>12</option>
+                        <option>14</option>
+                        <option>16</option>
+                        <option>18</option>
+                        <option>20</option>
+                        <option>22</option>
+                        <option>24</option>
+                        <option>26</option>
+                    </select>
                 </div>
             </form>
+            <svg  id="index_visualisation" width="" height=""></svg>
+            <div id="labelSector">
+                <div id="labelSectorLeft"></div>
+                <div id="labelSectorRight"></div>
+                <div id="labelSectorCenter"></div>
+            </div>
         </div>
     </div>
 </div>

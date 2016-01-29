@@ -3,10 +3,15 @@
  */
 /*useful link  tutorial of d3         http://code.tutsplus.com/tutorials/building-a-multi-line-chart-using-d3js-part-2--cms-22973*/
 /*useful link  contrasting colors alg http://godsnotwheregodsnot.blogspot.ru/2012/09/color-distribution-methodology.html*/
+
 //variables
+var newElementForLabel;
+var labelBoxSelector = ['#labelSectorLeft','#labelSectorCenter','#labelSectorRight'];
+var currentPositionlabelBox = 0;
 var manualAxis = false;
 var minAxis = 0;
 var maxAxis = 0.2;
+var yPartitions = 10;
 var tester;
 var colorBrewerQualitive = ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#e85ebe","#fdbf6f","#ff7f00","#cab2d6","#6a3d9a","#dd6937","#b15928",
                             "#009bff","#ffb167","#a5ffd2","#a75740","#5fad4e","#005f39","#ff6e41","#b500ff","#7544b1","#98ff52","#008f9c","#620e00",
@@ -18,185 +23,7 @@ var dataPercWithoutGroups = [];
 var vis,lineGen,dataPercWithGroups;
 var dataIndexWithoutGroups = [];
 
-//Data for testing dummy
-var data = [{
-    "perc": "75.5",
-    "year": "1990",
-    "country": "USA"
-}, {
-    "perc": "0",
-    "year": "1991",
-    "country": "USA"
-}, {
-    "perc": "45.6",
-    "year": "1992",
-    "country": "USA"
-}, {
-    "perc": "80.0",
-    "year": "1993",
-    "country": "USA"
-}, {
-    "perc": "20.5",
-    "year": "1994",
-    "country": "USA"
-}, {
-    "perc": "33.3",
-    "year": "1995",
-    "country": "USA"
-},{
-    "perc": "5.6",
-    "year": "1996",
-    "country": "USA"
-}, {
-    "perc": "16.7",
-    "year": "1997",
-    "country": "USA"
-}, {
-    "perc": "19.2",
-    "year": "1998",
-    "country": "USA"
-}, {
-    "perc": "88.4",
-    "year": "1999",
-    "country": "USA"
-}, {
-    "perc": "91.4",
-    "year": "2000",
-    "country": "USA"
-}, {
-    "perc": "33.1",
-    "year": "2001",
-    "country": "USA"
-}, {
-    "perc": "42.5",
-    "year": "2002",
-    "country": "USA"
-}, {
-    "perc": "32.32",
-    "year": "2003",
-    "country": "USA"
-}, {
-    "perc": "56.4",
-    "year": "2004",
-    "country": "USA"
-}, {
-    "perc": "47.1",
-    "year": "2005",
-    "country": "USA"
-}, {
-    "perc": "67.5",
-    "year": "2006",
-    "country": "USA"
-}, {
-    "perc": "31.2",
-    "year": "2007",
-    "country": "USA"
-}, {
-    "perc": "11.8",
-    "year": "2008",
-    "country": "USA"
-}, {
-    "perc": "21.5",
-    "year": "2009",
-    "country": "USA"
-}, {
-    "perc": "84.8",
-    "year": "2010",
-    "country": "USA"
-}, {
-    "perc": "75.0",
-    "year": "2011",
-    "country": "USA"
-}];
-var data2 = [{
-    "perc": "45.5",
-    "year": "1990",
-    "country": "MEX"
-}, {
-    "perc": "0",
-    "year": "1991",
-    "country": "MEX"
-}, {
-    "perc": "25.6",
-    "year": "1992",
-    "country": "MEX"
-}, {
-    "perc": "70.0",
-    "year": "1993",
-    "country": "MEX"
-}, {
-    "perc": "10.5",
-    "year": "1994",
-    "country": "MEX"
-}, {
-    "perc": "43.3",
-    "year": "1995",
-    "country": "MEX"
-},{
-    "perc": "15.6",
-    "year": "1996",
-    "country": "MEX"
-}, {
-    "perc": "36.7",
-    "year": "1997",
-    "country": "MEX"
-}, {
-    "perc": "79.2",
-    "year": "1998",
-    "country": "MEX"
-}, {
-    "perc": "78.4",
-    "year": "1999",
-    "country": "MEX"
-}, {
-    "perc": "91.4",
-    "year": "2000",
-    "country": "MEX"
-}, {
-    "perc": "23.1",
-    "year": "2001",
-    "country": "MEX"
-}, {
-    "perc": "42.5",
-    "year": "2002",
-    "country": "MEX"
-}, {
-    "perc": "32.32",
-    "year": "2003",
-    "country": "MEX"
-}, {
-    "perc": "66.4",
-    "year": "2004",
-    "country": "MEX"
-}, {
-    "perc": "47.1",
-    "year": "2005",
-    "country": "MEX"
-}, {
-    "perc": "87.5",
-    "year": "2006",
-    "country": "MEX"
-}, {
-    "perc": "31.2",
-    "year": "2007",
-    "country": "MEX"
-}, {
-    "perc": "11.8",
-    "year": "2008",
-    "country": "MEX"
-}, {
-    "perc": "21.5",
-    "year": "2009",
-    "country": "MEX"
-}, {
-    "perc": "84.8",
-    "year": "2010",
-    "country": "MEX"
-}, {
-    "perc": "75.0",
-    "year": "2011",
-    "country": "MEX"
-}];
+
 d3.selection.prototype.moveToFront = function() {
       return this.each(function(){
         this.parentNode.appendChild(this);
@@ -232,12 +59,24 @@ function update_y_axis(){//
         yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain(
             [ minAxis, maxAxis]);
         yAxis = d3.svg.axis()
-            .scale(yScale)
+            .scale(yScale).ticks(yPartitions)
             .orient("left");
         vis.append("svg:g")
             .attr("class","axisY")
             .attr("transform", "translate(" + (MARGINS.left) + ",0)")
             .call(yAxis);
+
+        //grid
+        d3.selectAll("line.y").remove();//remove axis
+        vis.selectAll("line.y")
+          .data(yScale.ticks(yPartitions))
+          .enter().append("line")
+          .attr("class", "y")
+          .attr("x1", xScale(1990))
+          .attr("x2", xScale(2011))
+          .attr("y1", yScale)
+          .attr("y2", yScale)
+          .style("stroke", "#ccc");
     }else{//get max value and lowest and sets a scale
         d3.select("g.axisY").remove();//remove axis
         //add new axis
@@ -245,7 +84,7 @@ function update_y_axis(){//
             [ d3.min(dataPercWithoutGroups, function(d) {return d.perc;}),
             d3.max(dataPercWithoutGroups, function(d) {return +d.perc;})]);
         yAxis = d3.svg.axis()
-            .scale(yScale).ticks(10)
+            .scale(yScale).ticks(yPartitions)
             .orient("left");
         vis.append("svg:g")
             .attr("class","axisY")
@@ -256,7 +95,7 @@ function update_y_axis(){//
         //grid
         d3.selectAll("line.y").remove();//remove axis
         vis.selectAll("line.y")
-          .data(yScale.ticks())
+          .data(yScale.ticks(yPartitions))
           .enter().append("line")
           .attr("class", "y")
           .attr("x1", xScale(1990))
@@ -265,16 +104,7 @@ function update_y_axis(){//
           .attr("y2", yScale)
           .style("stroke", "#ccc");
     }
-
-
-    //console.log(d3.min(dataPercWithoutGroups, function(d) {return d.perc;}));
-    //console.log(d3.max(dataPercWithoutGroups, function(d) {return +d.perc;}));
-
-
-
 }
-
-
 function initIndex(){
     dataPercWithoutGroups = [];
     vis = d3.select("#index_visualisation"),
@@ -287,11 +117,12 @@ function initIndex(){
         left: 50
     },
     xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([1990,2011]),//Define Scales
-    yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([-50,100]),
+    yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0,100]),
+    //yScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0,100]),
     xAxis = d3.svg.axis()
-        .scale(xScale).ticks(22);
+        .scale(xScale).tickFormat(d3.format("d")).ticks(22);
     yAxis = d3.svg.axis()
-        .scale(yScale)
+        .scale(yScale).ticks(yPartitions)
         .orient("left");
     
     //Order the axis
@@ -311,12 +142,12 @@ function initIndex(){
       .attr("class", "x")
       .attr("x1", xScale)
       .attr("x2", xScale)
-      .attr("y1", yScale(-50))
+      .attr("y1", yScale(0))
       .attr("y2", yScale(100))
       .style("stroke", "#ccc");
     // Draw Y-axis grid lines
     vis.selectAll("line.y")
-      .data(yScale.ticks(8))
+      .data(yScale.ticks(yPartitions))
       .enter().append("line")
       .attr("class", "y")
       .attr("x1", xScale(1990))
@@ -329,6 +160,17 @@ function initIndex(){
 
     //d3 api method to create line that depends on the year and percentage
     lineGen = d3.svg.line()
+    .defined(function(d) {
+                //var check = d.perc == '' ? 'empty' : 'has some';
+                //console.log(check);
+
+                //if(yScale(d.perc) > yScale(minAxis)){
+                //    console.log('yScale on perc: '+ yScale(d.perc) + ' yScale on 0: ' + yScale(minAxis));
+                //    return false;
+                //}
+
+                return d.perc!== '';
+            })
     .x(function(d) {
         return xScale(d.year);
     })
@@ -336,9 +178,6 @@ function initIndex(){
         return yScale(d.perc);
     })
     //.interpolate("linear");
-
-
-
 }
 function updateIndex(){
     d3.selectAll("path.line").remove();
@@ -365,14 +204,20 @@ function updateIndex(){
             .attr('fill', 'none');
         var colorForCircleIndex = i;
         for (var i = 0, len = d.values.length; i < len; i++){
-            vis.append('svg:circle')
-            //.attr('d', CircleGen(d.values))
-            .attr("cx", xScale(d.values[i].year))
-            .attr("cy", yScale(d.values[i].perc))
-            .attr("r", 4)
-            .attr('class','circle' + ' circle_' + d.key.replace(/\s/g, ''))
-            //.attr('class','circle_' + d.key)
-            .style("fill", (colorForCircleIndex < dataPercWithGroups.length ? colorBrewerQualitive[colorForCircleIndex] : randomColorSelector ));
+
+            if(d.values[i].perc == ''){
+
+            }else{
+                vis.append('svg:circle')
+                    //.attr('d', CircleGen(d.values))
+                    .attr("cx", xScale(d.values[i].year))
+                    .attr("cy", yScale(d.values[i].perc))
+                    .attr("r", 4)
+                    .attr('class','circle' + ' circle_' + d.key.replace(/\s/g, ''))
+                    //.attr('class','circle_' + d.key)
+                    .style("fill", (colorForCircleIndex < dataPercWithGroups.length ? colorBrewerQualitive[colorForCircleIndex] : randomColorSelector ));
+            }
+
         }
 
         //tester = d;
@@ -381,41 +226,76 @@ function updateIndex(){
     //add labels
     d3.selectAll("text.legend").remove();
     lSpace = WIDTH/dataPercWithGroups.length;
+
+    //Delete all childs from the labels
+    $(labelBoxSelector[0]).empty();
+    $(labelBoxSelector[1]).empty();
+    $(labelBoxSelector[2]).empty();
+
     dataPercWithGroups.forEach(function(d,i){
         var trimKey = d.key.replace(/\s/g, '');//delete white spaces
         var colorFromStroke = d3.select("#line_" + trimKey).attr('stroke');
-        vis.append("text")
-            .attr("x", (lSpace / 2) + i * lSpace)
-            .attr("y", HEIGHT)
-            .attr("fill",colorFromStroke)
-            .attr("class", "legend")
-            //.style("fill", "black")
-            .on('click', function() {
-                //var active = d.active ? false : true;
-                //var opacity = active ? 0 : 1;
-
-                //console.log(d3.select("#line_" + trimKey).attr('stroke'));
-                //paint all lines gray
-                d3.selectAll(".line").classed("strokeGray", true);
-                d3.selectAll(".circle").classed("fillGray", true);
-
-                //remove gray from selected line
-                d3.select("#line_" + trimKey).classed("strokeGray", false);
-                d3.selectAll(".circle_"+ trimKey).classed("fillGray", false);
-
-
-                //paint red the selected line
-                d3.select("#line_" + trimKey).classed("strongHighlightStroke", true);
-                d3.selectAll(".circle_"+ trimKey).classed("strongHighlightFill", true);
-                d3.select("#line_" + trimKey).moveToFront();//bring to the front svg
-                //d3.select(".circle_"+ trimKey).moveToFront();//not working
-
-            })
-            .text(d.key);
+        //vis.append("text")
+        //    .attr("x", (lSpace / 2) + i * lSpace)
+        //    .attr("y", HEIGHT)
+        //    .attr("fill",colorFromStroke)
+        //    .attr("class", "legend")
+        //    //.style("fill", "black")
+        //    .on('click', function() {
+        //        //var active = d.active ? false : true;
+        //        //var opacity = active ? 0 : 1;
+        //
+        //        //console.log(d3.select("#line_" + trimKey).attr('stroke'));
+        //        //paint all lines gray
+        //        d3.selectAll(".line").classed("strokeGray", true);
+        //        d3.selectAll(".circle").classed("fillGray", true);
+        //
+        //        //remove gray from selected line
+        //        d3.select("#line_" + trimKey).classed("strokeGray", false);
+        //        d3.selectAll(".circle_"+ trimKey).classed("fillGray", false);
+        //
+        //
+        //        //paint red the selected line
+        //        d3.select("#line_" + trimKey).classed("strongHighlightStroke", true);
+        //        d3.selectAll(".circle_"+ trimKey).classed("strongHighlightFill", true);
+        //        d3.select("#line_" + trimKey).moveToFront();//bring to the front svg
+        //        //d3.select(".circle_"+ trimKey).moveToFront();//not working
+        //
+        //    })
+        //    .text(d.key);
             //console.log(d.key);
+
+        //Add labels to columns in jquery
+        newElementForLabel = $("<div>"+ d.key +"</div>");
+        newElementForLabel.css({
+            'color' : colorFromStroke,
+            'margin-top' : '5px'
+        });
+        newElementForLabel.click(function(){
+            d3.selectAll(".line").classed("strokeGray", true);
+            d3.selectAll(".circle").classed("fillGray", true);
+            //remove gray from selected line
+            d3.select("#line_" + trimKey).classed("strokeGray", false);
+            d3.selectAll(".circle_"+ trimKey).classed("fillGray", false);
+            //paint red the selected line
+            d3.select("#line_" + trimKey).classed("strongHighlightStroke", true);
+            d3.selectAll(".circle_"+ trimKey).classed("strongHighlightFill", true);
+            d3.select("#line_" + trimKey).moveToFront();//bring to the front svg
+        });
+        $(labelBoxSelector[currentPositionlabelBox]).append(newElementForLabel);
+        currentPositionlabelBox = currentPositionlabelBox == 2 ? 0 : currentPositionlabelBox = currentPositionlabelBox + 1;
+        //console.log(currentPositionlabelBox);
+
     });
+        currentPositionlabelBox = 0;//reset counter of labels
 
 }
+function onClickLabelEvent(){
+    alert('Hello');
+}
+
+
+
 function mapCountryClicked(mapClickedArray){
     //if already in data don't add, else add
     var BreakException= {};
@@ -437,6 +317,11 @@ function mapCountryClicked(mapClickedArray){
 function cleanAllLinesFromIndexChart(){
     d3.selectAll("path.line").remove();
     d3.selectAll(".circle").remove();
+    //Delete all childs from the labels
+    $(labelBoxSelector[0]).empty();
+    $(labelBoxSelector[1]).empty();
+    $(labelBoxSelector[2]).empty();
+
     dataPercWithoutGroups = [];
 }
 function addLabels(){
@@ -475,13 +360,13 @@ $(document).ready(function() {//when the DOM has loaded
         }
     });
     $("#buttonYaxis").click( function(){
-        if(!manualAxis) {//automatic botton handler
+        if(!manualAxis) {//automatic button handler
             //update_y_axis();
             updateIndex();
-        }else{//manual  botton handler
+        }else{//manual  button handler
             minAxis = +$('#minInputValue').val();
             maxAxis = +$('#maxInputValue').val();
-            console.log("Min: " + minAxis + " Max: " + maxAxis);
+            //console.log("Min: " + minAxis + " Max: " + maxAxis);
             //update_y_axis();
             updateIndex();
         }
@@ -498,12 +383,195 @@ $(document).ready(function() {//when the DOM has loaded
     $("#rangeMethodDropmenu").change(function(){
         updateMap(selected_year_from_list);
     });
+    $('#partitionLevel').change(function(){
+        //console.log($('#partitionLevel option:selected' ).text());
+        yPartitions = parseInt($('#partitionLevel option:selected' ).text());
+    });
+
 });
 
 
 
 
-
+////Data for testing dummy
+//var data = [{
+//    "perc": "75.5",
+//    "year": "1990",
+//    "country": "USA"
+//}, {
+//    "perc": "0",
+//    "year": "1991",
+//    "country": "USA"
+//}, {
+//    "perc": "45.6",
+//    "year": "1992",
+//    "country": "USA"
+//}, {
+//    "perc": "80.0",
+//    "year": "1993",
+//    "country": "USA"
+//}, {
+//    "perc": "20.5",
+//    "year": "1994",
+//    "country": "USA"
+//}, {
+//    "perc": "33.3",
+//    "year": "1995",
+//    "country": "USA"
+//},{
+//    "perc": "5.6",
+//    "year": "1996",
+//    "country": "USA"
+//}, {
+//    "perc": "16.7",
+//    "year": "1997",
+//    "country": "USA"
+//}, {
+//    "perc": "19.2",
+//    "year": "1998",
+//    "country": "USA"
+//}, {
+//    "perc": "88.4",
+//    "year": "1999",
+//    "country": "USA"
+//}, {
+//    "perc": "91.4",
+//    "year": "2000",
+//    "country": "USA"
+//}, {
+//    "perc": "33.1",
+//    "year": "2001",
+//    "country": "USA"
+//}, {
+//    "perc": "42.5",
+//    "year": "2002",
+//    "country": "USA"
+//}, {
+//    "perc": "32.32",
+//    "year": "2003",
+//    "country": "USA"
+//}, {
+//    "perc": "56.4",
+//    "year": "2004",
+//    "country": "USA"
+//}, {
+//    "perc": "47.1",
+//    "year": "2005",
+//    "country": "USA"
+//}, {
+//    "perc": "67.5",
+//    "year": "2006",
+//    "country": "USA"
+//}, {
+//    "perc": "31.2",
+//    "year": "2007",
+//    "country": "USA"
+//}, {
+//    "perc": "11.8",
+//    "year": "2008",
+//    "country": "USA"
+//}, {
+//    "perc": "21.5",
+//    "year": "2009",
+//    "country": "USA"
+//}, {
+//    "perc": "84.8",
+//    "year": "2010",
+//    "country": "USA"
+//}, {
+//    "perc": "75.0",
+//    "year": "2011",
+//    "country": "USA"
+//}];
+//var data2 = [{
+//    "perc": "45.5",
+//    "year": "1990",
+//    "country": "MEX"
+//}, {
+//    "perc": "0",
+//    "year": "1991",
+//    "country": "MEX"
+//}, {
+//    "perc": "25.6",
+//    "year": "1992",
+//    "country": "MEX"
+//}, {
+//    "perc": "70.0",
+//    "year": "1993",
+//    "country": "MEX"
+//}, {
+//    "perc": "10.5",
+//    "year": "1994",
+//    "country": "MEX"
+//}, {
+//    "perc": "43.3",
+//    "year": "1995",
+//    "country": "MEX"
+//},{
+//    "perc": "15.6",
+//    "year": "1996",
+//    "country": "MEX"
+//}, {
+//    "perc": "36.7",
+//    "year": "1997",
+//    "country": "MEX"
+//}, {
+//    "perc": "79.2",
+//    "year": "1998",
+//    "country": "MEX"
+//}, {
+//    "perc": "78.4",
+//    "year": "1999",
+//    "country": "MEX"
+//}, {
+//    "perc": "91.4",
+//    "year": "2000",
+//    "country": "MEX"
+//}, {
+//    "perc": "23.1",
+//    "year": "2001",
+//    "country": "MEX"
+//}, {
+//    "perc": "42.5",
+//    "year": "2002",
+//    "country": "MEX"
+//}, {
+//    "perc": "32.32",
+//    "year": "2003",
+//    "country": "MEX"
+//}, {
+//    "perc": "66.4",
+//    "year": "2004",
+//    "country": "MEX"
+//}, {
+//    "perc": "47.1",
+//    "year": "2005",
+//    "country": "MEX"
+//}, {
+//    "perc": "87.5",
+//    "year": "2006",
+//    "country": "MEX"
+//}, {
+//    "perc": "31.2",
+//    "year": "2007",
+//    "country": "MEX"
+//}, {
+//    "perc": "11.8",
+//    "year": "2008",
+//    "country": "MEX"
+//}, {
+//    "perc": "21.5",
+//    "year": "2009",
+//    "country": "MEX"
+//}, {
+//    "perc": "84.8",
+//    "year": "2010",
+//    "country": "MEX"
+//}, {
+//    "perc": "75.0",
+//    "year": "2011",
+//    "country": "MEX"
+//}];
 
 
 

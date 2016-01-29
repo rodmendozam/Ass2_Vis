@@ -4,6 +4,36 @@ h3{
     font-size: 135%;
 }
 
+
+/*Labels Sector */
+#labelSector{
+    width: 100%;
+    overflow: auto;
+    margin-bottom: 25px;
+
+    text-align: center;
+}
+
+#labelSectorLeft{
+
+    float: left;
+    width: 30%;
+    min-height: 200px;
+    margin-left: 40px;
+}
+#labelSectorCenter{
+
+    margin: 0 auto;
+    width: 30%;
+    min-height: 200px;
+}
+#labelSectorRight{
+
+    float: right;
+    width: 30%;
+    min-height: 200px;
+    margin-right: 40px;
+}
 /*range type container*/
 #rangeTypeContainer{
     margin-top: 0px;
@@ -14,11 +44,33 @@ h3{
     display: inline;
 }
 /*ranking css*/
-#rankingList div div p, #rankingList h3 p{
-    display: inline;
+#rankingList h3{
+    background-color: #0074d9 !important;
+}
+div.ui-accordion-content div p:nth-child(1){/*year*/
+    color: black;
+    float: left;
+    font-weight: bold;
+    font-size: 90%;
+}
+div.ui-accordion-content div p:nth-child(2){/*year*/
+
+    display: inline-block;
+    margin-left: 20px;
 
 }
+div.ui-accordion-content div p:nth-child(3){/*year*/
+    color: #0074d9;
+    float: right;
+}
 
+#rankingList div div p, #rankingList h3 p{
+    /*display: inline;*/
+
+}
+div#rankingList h3 p:nth-child(3){
+    display: inline;
+}
 #rankingList h3{
     position: relative;
     min-height: 50px;
@@ -27,7 +79,7 @@ h3{
 }
 
 #rankingList {
-    height: inherit;
+    height: 780px;
     overflow: scroll;
     overflow-x: hidden;
 }
@@ -37,6 +89,7 @@ h3{
     width: 165px;
     margin-left: 5px;
     margin-right: 5px;
+
 
 }
 
@@ -64,6 +117,9 @@ h3{
     font-size: 14px;
     font-weight: bold;
 }
+.fieldFormInputSize{
+    width: 140px;
+}
 /*BLOCK CONTAINERS*/
 .marginLeft5{
     margin-left: 5px;
@@ -72,7 +128,7 @@ h3{
     margin-top: 15px;
 }
 .formMargin{
-    margin: 50px 10px 20px 20px;
+    margin: 15px 10px 5px 20px;
 }
 #bottom_space{
     height: 100px;
@@ -86,12 +142,12 @@ h3{
 #rankingContainer{
     width: 320px;
     float: left;
-    height: 930px;
+
 
 }
 #index_visualisation{
     width: inherit;
-    height: 490px;
+    height: 440px;
 }
 #infoContainer{
     margin: 10px;
