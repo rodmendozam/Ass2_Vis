@@ -5,6 +5,11 @@
 /*useful link  contrasting colors alg http://godsnotwheregodsnot.blogspot.ru/2012/09/color-distribution-methodology.html*/
 
 //variables
+
+var currentGraphicMethod = 'Percentage Chart';//Initial Mode
+var currentIndexYear = '1990';//Initial Index year
+var dataIndexed = []; //Index data form
+var minValueFromDataGroup = 0, maxValueFromDataGroup = 0;
 var newElementForLabel;
 var labelBoxSelector = ['#labelSectorLeft','#labelSectorCenter','#labelSectorRight'];
 var currentPositionlabelBox = 0;
@@ -21,7 +26,8 @@ var colorBrewerQualitive = ["#a6cee3","#1f78b4","#b2df8a","#33a02c","#fb9a99","#
                             "#010067","#006401","#ffdb66","#ffa6fe","#7a4782","#000000"];
 var dataPercWithoutGroups = [];
 var vis,lineGen,dataPercWithGroups;
-var dataIndexWithoutGroups = [];
+var countryWithIndexYearCero = '';
+
 
 
 d3.selection.prototype.moveToFront = function() {
@@ -80,9 +86,32 @@ function update_y_axis(){//
     }else{//get max value and lowest and sets a scale
         d3.select("g.axisY").remove();//remove axis
         //add new axis
+        //yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain(
+        //    [ d3.min(dataPercWithoutGroups, function(d) {return +d.perc;}),
+        //    d3.max(dataPercWithoutGroups, function(d) {return +d.perc;})]);
+
+        //max and min from data with groups useful for index and perc chart...the above one orks only for perc chart
+        d3.select("g.axisY").remove();//remove axis
         yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain(
-            [ d3.min(dataPercWithoutGroups, function(d) {return d.perc;}),
-            d3.max(dataPercWithoutGroups, function(d) {return +d.perc;})]);
+            [ d3.min(dataPercWithGroups, function(d) {
+                return d3.min(d.values, function(e){
+                    //console.log(e);
+                   return +e.perc;
+                });
+            }),
+            d3.max(dataPercWithGroups, function(d) {
+
+                //console.log(d);
+
+                return d3.max(d.values, function(e){
+                    //console.log(e);
+                   return +e.perc;
+                });
+
+
+            })]);
+
+
         yAxis = d3.svg.axis()
             .scale(yScale).ticks(yPartitions)
             .orient("left");
@@ -104,6 +133,12 @@ function update_y_axis(){//
           .attr("y2", yScale)
           .style("stroke", "#ccc");
     }
+    d3.selectAll('line.x').style('stroke', '#ccc');
+    if(currentGraphicMethod == 'Index Chart'){//paint red the index year bar
+        var yearToPaintRed = currentIndexYear - 1988;//if you rest 1988 you get the first bar number 2 and so on
+        d3.selectAll('line.x:nth-child('+yearToPaintRed+')').style('stroke', '#d32935');
+    }
+
 }
 function initIndex(){
     dataPercWithoutGroups = [];
@@ -154,7 +189,10 @@ function initIndex(){
       .attr("x2", xScale(2011))
       .attr("y1", yScale)
       .attr("y2", yScale)
-      .style("stroke", "#ccc");
+          .style("stroke", "#ccc");
+
+
+
 
 
 
@@ -163,7 +201,6 @@ function initIndex(){
     .defined(function(d) {
                 //var check = d.perc == '' ? 'empty' : 'has some';
                 //console.log(check);
-
                 //if(yScale(d.perc) > yScale(minAxis)){
                 //    console.log('yScale on perc: '+ yScale(d.perc) + ' yScale on 0: ' + yScale(minAxis));
                 //    return false;
@@ -182,18 +219,28 @@ function initIndex(){
 function updateIndex(){
     d3.selectAll("path.line").remove();
     d3.selectAll(".circle").remove();
-    update_y_axis();
-    //Sort data by key
+
+    //SORT DATA BY KEY
     dataPercWithGroups = d3.nest()
             .key(function(d) {
                 return d.country;
             })
             .entries( dataPercWithoutGroups );
 
-    //Each data to a line and draw
+    //TRANSFORM DATAPERCWITHGROUPS PERC VALUES INTO INDEX VALUES
+    if(currentGraphicMethod == 'Index Chart'){//CHANGE DATA IF INDEX CHART MODE IS ON
+        //dataPercWithGroups = $.extend(true, {}, transformDataGroupIntoIndexGroup(dataPercWithGroups,currentIndexYear));//makes a copy of the data and not a copy by reference only
+        var dataManipulated = transformDataGroupIntoIndexGroup(dataPercWithGroups,parseInt(currentIndexYear));
+        //dataPercWithGroups = $.extend(true, {}, dataManipulated);
+        //dataManipulated = d3.nest().key(function(d){ return d.country; }).entries(dataManipulated);
+        //console.log(dataManipulated);
+        dataPercWithGroups = dataManipulated;
+        //console.log(dataPercWithGroups);
+    }
+    //UPDATE Y AXIS
+    update_y_axis();
+    //EACH DATA TO A LINE AND DRAW
     dataPercWithGroups.forEach(function(d, i) {
-        //console.log("len is: "+dataPercWithGroups.length);
-        //console.log(i);
         var randomColorSelector = Math.floor(Math.random()*16777215).toString(16);
         vis.append('svg:path')
             .attr('d', lineGen(d.values))
@@ -223,47 +270,17 @@ function updateIndex(){
         //tester = d;
     });
 
-    //add labels
+    //ADD LABELS
     d3.selectAll("text.legend").remove();
     lSpace = WIDTH/dataPercWithGroups.length;
 
-    //Delete all childs from the labels
+    //Delete all childs from the labels and draw them
     $(labelBoxSelector[0]).empty();
     $(labelBoxSelector[1]).empty();
     $(labelBoxSelector[2]).empty();
-
     dataPercWithGroups.forEach(function(d,i){
         var trimKey = d.key.replace(/\s/g, '');//delete white spaces
         var colorFromStroke = d3.select("#line_" + trimKey).attr('stroke');
-        //vis.append("text")
-        //    .attr("x", (lSpace / 2) + i * lSpace)
-        //    .attr("y", HEIGHT)
-        //    .attr("fill",colorFromStroke)
-        //    .attr("class", "legend")
-        //    //.style("fill", "black")
-        //    .on('click', function() {
-        //        //var active = d.active ? false : true;
-        //        //var opacity = active ? 0 : 1;
-        //
-        //        //console.log(d3.select("#line_" + trimKey).attr('stroke'));
-        //        //paint all lines gray
-        //        d3.selectAll(".line").classed("strokeGray", true);
-        //        d3.selectAll(".circle").classed("fillGray", true);
-        //
-        //        //remove gray from selected line
-        //        d3.select("#line_" + trimKey).classed("strokeGray", false);
-        //        d3.selectAll(".circle_"+ trimKey).classed("fillGray", false);
-        //
-        //
-        //        //paint red the selected line
-        //        d3.select("#line_" + trimKey).classed("strongHighlightStroke", true);
-        //        d3.selectAll(".circle_"+ trimKey).classed("strongHighlightFill", true);
-        //        d3.select("#line_" + trimKey).moveToFront();//bring to the front svg
-        //        //d3.select(".circle_"+ trimKey).moveToFront();//not working
-        //
-        //    })
-        //    .text(d.key);
-            //console.log(d.key);
 
         //Add labels to columns in jquery
         newElementForLabel = $("<div>"+ d.key +"</div>");
@@ -290,12 +307,6 @@ function updateIndex(){
         currentPositionlabelBox = 0;//reset counter of labels
 
 }
-function onClickLabelEvent(){
-    alert('Hello');
-}
-
-
-
 function mapCountryClicked(mapClickedArray){
     //if already in data don't add, else add
     var BreakException= {};
@@ -388,200 +399,76 @@ $(document).ready(function() {//when the DOM has loaded
         yPartitions = parseInt($('#partitionLevel option:selected' ).text());
     });
 
+
+
+
+    //INDEX HANDLER BUTTONS
+    $('#graphMethod').change(function(){//Handle the graphic method
+        currentGraphicMethod = $('#graphMethod option:selected' ).text() ;//get graphic mode text
+        currentIndexYear = $('#indexYearMenu option:selected').text(); //get graphic index year text
+        if(currentGraphicMethod == 'Percentage Chart') {//Block Index dropmenu
+            $('#indexYearMenu').prop('disabled', true);
+            currentGraphicMethod = 'Percentage Chart';
+        }
+        else if(currentGraphicMethod == 'Index Chart'){//First time updating index chart
+            $('#indexYearMenu').prop('disabled', false);//
+            currentGraphicMethod = 'Index Chart';
+            currentIndexYear = $('#indexYearMenu option:selected').text(); //get graphic index year text
+        }
+    });
+    $('#indexYearMenu').change(function() {//Handle the graphic method
+        //d3.select('line.x:nth-child(24)').style("stroke", "#ccc");
+        currentIndexYear = $('#indexYearMenu option:selected').text(); //get graphic index year text
+        //update data with index value
+        //paint index line
+    });
+
 });
 
 
+function transformDataGroupIntoIndexGroup(dataToTransform, yearAsIndex){
+    countryWithIndexYearCero = ''
+    var tempData = $.extend(true, {}, dataToTransform);
+    $.each(tempData, function(index, val){
+        var indexYearPercValue = getIndexYearPerc(yearAsIndex, val.values);//Find perc value from the year given
+        //console.log(tempData);
+        countryWithIndexYearCero = indexYearPercValue == 0 ? countryWithIndexYearCero = countryWithIndexYearCero + ', ' + val.key: countryWithIndexYearCero;
+        $.each(val.values, function(index, val){
+            if(indexYearPercValue == 0){
+                val.perc = '';
+                //countryWithIndexYearCero = countryWithIndexYearCero + ', ';
+            }
+            else if(val.perc != '')
+                val.perc = (val.perc - indexYearPercValue) / indexYearPercValue;
+        });
+    });
+    //console.log('Data to transform:')
+    //console.log(dataToTransform);
+    //console.log('Data processed:')
+    //console.log(tempData);
+    //console.log('Data try to change structure:')
+    var myArray = [];
+    $.each(tempData,function(i,d){
+       myArray.push(d);
+    });
+    if(countryWithIndexYearCero != '')
+        countryWithIndexYearCero = (countryWithIndexYearCero + ' miss index year value').substr(1);
+    $('#labelTextIndexCountriesCero').text(countryWithIndexYearCero);
+    return myArray;
 
-
-////Data for testing dummy
-//var data = [{
-//    "perc": "75.5",
-//    "year": "1990",
-//    "country": "USA"
-//}, {
-//    "perc": "0",
-//    "year": "1991",
-//    "country": "USA"
-//}, {
-//    "perc": "45.6",
-//    "year": "1992",
-//    "country": "USA"
-//}, {
-//    "perc": "80.0",
-//    "year": "1993",
-//    "country": "USA"
-//}, {
-//    "perc": "20.5",
-//    "year": "1994",
-//    "country": "USA"
-//}, {
-//    "perc": "33.3",
-//    "year": "1995",
-//    "country": "USA"
-//},{
-//    "perc": "5.6",
-//    "year": "1996",
-//    "country": "USA"
-//}, {
-//    "perc": "16.7",
-//    "year": "1997",
-//    "country": "USA"
-//}, {
-//    "perc": "19.2",
-//    "year": "1998",
-//    "country": "USA"
-//}, {
-//    "perc": "88.4",
-//    "year": "1999",
-//    "country": "USA"
-//}, {
-//    "perc": "91.4",
-//    "year": "2000",
-//    "country": "USA"
-//}, {
-//    "perc": "33.1",
-//    "year": "2001",
-//    "country": "USA"
-//}, {
-//    "perc": "42.5",
-//    "year": "2002",
-//    "country": "USA"
-//}, {
-//    "perc": "32.32",
-//    "year": "2003",
-//    "country": "USA"
-//}, {
-//    "perc": "56.4",
-//    "year": "2004",
-//    "country": "USA"
-//}, {
-//    "perc": "47.1",
-//    "year": "2005",
-//    "country": "USA"
-//}, {
-//    "perc": "67.5",
-//    "year": "2006",
-//    "country": "USA"
-//}, {
-//    "perc": "31.2",
-//    "year": "2007",
-//    "country": "USA"
-//}, {
-//    "perc": "11.8",
-//    "year": "2008",
-//    "country": "USA"
-//}, {
-//    "perc": "21.5",
-//    "year": "2009",
-//    "country": "USA"
-//}, {
-//    "perc": "84.8",
-//    "year": "2010",
-//    "country": "USA"
-//}, {
-//    "perc": "75.0",
-//    "year": "2011",
-//    "country": "USA"
-//}];
-//var data2 = [{
-//    "perc": "45.5",
-//    "year": "1990",
-//    "country": "MEX"
-//}, {
-//    "perc": "0",
-//    "year": "1991",
-//    "country": "MEX"
-//}, {
-//    "perc": "25.6",
-//    "year": "1992",
-//    "country": "MEX"
-//}, {
-//    "perc": "70.0",
-//    "year": "1993",
-//    "country": "MEX"
-//}, {
-//    "perc": "10.5",
-//    "year": "1994",
-//    "country": "MEX"
-//}, {
-//    "perc": "43.3",
-//    "year": "1995",
-//    "country": "MEX"
-//},{
-//    "perc": "15.6",
-//    "year": "1996",
-//    "country": "MEX"
-//}, {
-//    "perc": "36.7",
-//    "year": "1997",
-//    "country": "MEX"
-//}, {
-//    "perc": "79.2",
-//    "year": "1998",
-//    "country": "MEX"
-//}, {
-//    "perc": "78.4",
-//    "year": "1999",
-//    "country": "MEX"
-//}, {
-//    "perc": "91.4",
-//    "year": "2000",
-//    "country": "MEX"
-//}, {
-//    "perc": "23.1",
-//    "year": "2001",
-//    "country": "MEX"
-//}, {
-//    "perc": "42.5",
-//    "year": "2002",
-//    "country": "MEX"
-//}, {
-//    "perc": "32.32",
-//    "year": "2003",
-//    "country": "MEX"
-//}, {
-//    "perc": "66.4",
-//    "year": "2004",
-//    "country": "MEX"
-//}, {
-//    "perc": "47.1",
-//    "year": "2005",
-//    "country": "MEX"
-//}, {
-//    "perc": "87.5",
-//    "year": "2006",
-//    "country": "MEX"
-//}, {
-//    "perc": "31.2",
-//    "year": "2007",
-//    "country": "MEX"
-//}, {
-//    "perc": "11.8",
-//    "year": "2008",
-//    "country": "MEX"
-//}, {
-//    "perc": "21.5",
-//    "year": "2009",
-//    "country": "MEX"
-//}, {
-//    "perc": "84.8",
-//    "year": "2010",
-//    "country": "MEX"
-//}, {
-//    "perc": "75.0",
-//    "year": "2011",
-//    "country": "MEX"
-//}];
-
-
-
-
-
-
-
-
-
-
+}
+function getIndexYearPerc(yearToFind, arraySet){
+    var element = 0.0;
+    $.each(arraySet,function(index, val){
+        //console.log('Perc primero' + val.perc);
+        if(parseInt(val.year) == parseInt(yearToFind)){
+            //console.log('Perc adentro del if' + val.perc);
+            element = val.perc == "" ? 0.0 : val.perc;
+            return;
+        }
+    });
+    return element;
+}
 
 
 

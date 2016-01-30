@@ -116,8 +116,8 @@
                     <input type="number" class="form-control" disabled="disabled" id="minInputValue" placeholder="Type min value">
                     <label class="marginLeft5" for="maxInputValue">Max:</label>
                     <input type="number" class="form-control" disabled="disabled" id="maxInputValue" placeholder="Type max value">
-                    <button id="buttonYaxis" type="button" class="btn btn-default marginLeft5" >Update Axis</button>
-                    <button id="buttonClear" type="button" class="btn btn-default marginLeft5" >Clear Path</button>
+                    <button id="buttonYaxis" type="button" class="btn btn-default marginLeft5" >Update Graph</button>
+                    <button id="buttonClear" type="button" class="btn btn-default marginLeft5" >Clear Lines</button>
                 </div>
                 <!--<div class="clearfix marginTopClearfix"></div>-->
 
@@ -137,12 +137,38 @@
                         <option>26</option>
                     </select>
                 </div>
-                <div class="form-group" style="margin-top: 10px">
+                <div class="form-group" style="margin-top: 15px">
                     <label for="graphMethod">Graphic Method: </label>
                     <select class="form-control marginLeft5" id="graphMethod">
-                        <option>Percentage</option>
+                        <option>Percentage Chart</option>
                         <option>Index Chart</option>
                     </select>
+                    <label class="marginLeft5" for="indexYearMenu">Index Year: </label>
+                    <select disabled="disabled" class="form-control marginLeft5" id="indexYearMenu">
+                        <option>1990</option>
+                        <option>1991</option>
+                        <option>1992</option>
+                        <option>1993</option>
+                        <option>1994</option>
+                        <option>1995</option>
+                        <option>1996</option>
+                        <option>1997</option>
+                        <option>1998</option>
+                        <option>1999</option>
+                        <option>2000</option>
+                        <option>2001</option>
+                        <option>2002</option>
+                        <option>2003</option>
+                        <option>2004</option>
+                        <option>2005</option>
+                        <option>2006</option>
+                        <option>2007</option>
+                        <option>2008</option>
+                        <option>2009</option>
+                        <option>2010</option>
+                        <option>2011</option>
+                    </select>
+                    <label id="labelTextIndexCountriesCero"> </label>
                 </div>
             </form>
             <svg  id="index_visualisation" width="" height=""></svg>

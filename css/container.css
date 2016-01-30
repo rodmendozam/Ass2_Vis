@@ -4,9 +4,14 @@ h3{
     font-size: 135%;
 }
 
+#labelTextIndexCountriesCero{
+    font-weight: normal;
+    margin-left: 10px;
+}
 
-
-
+.redStroke{
+    stroke: #d32935;
+}
 
 /*Labels Sector */
 #labelSector{
