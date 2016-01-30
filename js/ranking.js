@@ -62,7 +62,7 @@ function updateList(year){
             var positionRecord = parseInt(sortedData[j-1990][index-1][3]);//1 increased 0 stay the same -1 went down on the position table
             var typeOfArrowToDisplayInCSS =  positionRecord == 1 ? 'upperArrow' : (positionRecord == 0 ? 'equalArrow' : 'lowerArrow');//set string class depending on code
 
-            content += "<div><p>" + parseInt(j) + "</p> <p>" + index + "/168</p> <p class=\""+ typeOfArrowToDisplayInCSS +"\">" + "</p></div>";
+            content += "<div><p>" + parseInt(j) + "</p> <p> #" + index + "</p> <p class=\""+ typeOfArrowToDisplayInCSS +"\">" + "</p></div>";
 
         }
         if (sortedData[year][i][2] != "" && (colorData[sortedData[year][i][0]] != 'rgba(253,208,162,0.9)' && colorData[sortedData[year][i][0]] != 'rgba(253,174,107,0.9)')) {

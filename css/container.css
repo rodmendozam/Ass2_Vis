@@ -79,6 +79,7 @@ div.ui-accordion-content div{
 div.ui-accordion-content div p:nth-child(1){/*year*/
     color: black;
     /*float: left;*/
+    min-width: 85px;
     font-weight: bold;
     font-size: 90%;
 }
@@ -109,7 +110,7 @@ div#rankingList h3 p:nth-child(3){
 }
 
 #rankingList {
-    height: 780px;
+    height: 1005px;
     overflow: scroll;
     overflow-x: hidden;
 }
